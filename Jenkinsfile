@@ -1,59 +1,30 @@
 pipeline {
-    agent any  // This allows Jenkins to run on any available agent
-
-    environment {
-        // Define environment variables here if needed
-        MAVEN_HOME = '/usr/local/apache-maven'  // Set Maven installation path (adjust as needed)
-    }
+    agent any
 
     stages {
-        stage('Checkout') {
-            steps {
-                // Checkout the code from Git repository
-                checkout scm
-            }
-        }
-        
         stage('Build') {
             steps {
+                // If you're not using SCM, comment out or remove this line
+                // checkout scm
                 script {
-                    // Run the Maven build command
-                    echo 'Building the project...'
-                    sh "'${MAVEN_HOME}/bin/mvn' clean install"  // Adjust Maven command as needed
+                    sh 'echo Building project...'
                 }
             }
         }
-        
         stage('Test') {
             steps {
                 script {
-                    // Run tests after building
-                    echo 'Running tests...'
-                    sh "'${MAVEN_HOME}/bin/mvn' test"  // Adjust Maven test command as needed
+                    sh 'echo Running tests...'
                 }
             }
         }
-
         stage('Deploy') {
             steps {
                 script {
-                    // Add deployment steps (e.g., copy files, trigger remote deployment, etc.)
-                    echo 'Deploying application...'
-                    // Example: sh 'deploy-scripts/deploy.sh'
+                    sh 'echo Deploying project...'
                 }
             }
         }
     }
-
-    post {
-        success {
-            echo 'Build and deployment succeeded!'
-        }
-        failure {
-            echo 'Build or deployment failed!'
-        }
-        always {
-            echo 'Pipeline execution completed!'
-        }
-    }
 }
+
